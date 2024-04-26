@@ -133,8 +133,13 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     max_time_v = 8.0
     method = "implicit"
     # generate training dataset
-    ''''''
-    df_gender_train_t = Model_utility.df_draw2(df_gender_t) 
+    
+    df_gender_train_t = Model_utility.df_draw2(df_gender_t)  # for bootstrap distribution
+    '''
+    # when estimate MLE
+    df_gender_train_t = df_gender_t
+    '''
+    
     beta_s = df_gender_train_t[para].to_numpy()[1] 
 
     
@@ -146,7 +151,13 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
 
     
     
-    df_gender_train_v = Model_utility.df_draw2(df_gender_v) 
+    df_gender_train_v = Model_utility.df_draw2(df_gender_v)  # for bootstrap distribution
+
+    '''
+    # when estimate MLE
+    df_gender_train_v = df_gender_v
+    '''
+    
     beta_s = df_gender_train_v[para].to_numpy()[1]
     RT_gender_train_v = df_gender_train_v['RT1'].to_numpy()
     R_gender_train_v  = df_gender_train_v['R'].to_numpy()
@@ -240,15 +251,21 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     
     
     # write result
-    ''''''
-    file_path = 'data/estimate_gender_text_bs_'+para+'.txt'
+    '''
+    # for MLE point estimation
+    file_path = 'data/estimate_gender_text_mle_'+para+'.txt'
+    '''
+    file_path = 'data/estimate_gender_text_bs_'+para+'.txt' # for bootstrap
 
     with open(file_path, 'a') as f:
         f.write( '  '.join(map(str, res_final)) + '\n')   
         
-
+    '''
+    # for MLE point estimation
+    file_path = 'data/estimate_gender_video_mle_'+para+'.txt'
+    '''
            
-    file_path = 'data/estimate_gender_video_bs_'+para+'.txt'
+    file_path = 'data/estimate_gender_video_bs_'+para+'.txt' # for bootstrap
   
     with open(file_path, 'a') as f:
         f.write( '  '.join(map(str, res_final_v)) + '\n')
