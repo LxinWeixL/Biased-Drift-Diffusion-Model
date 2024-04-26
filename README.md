@@ -59,11 +59,13 @@ This project includes all codes related to DDM models in our paper.
   - Input: `gender_text_copy.csv` and `gender_video_copy.csv` in `.../Biased_gender_CV/data/`.
   - sampling method: `df_draw()` in `Model_utility.py`. This is a subject-level Leave-one-out sampling method to ensure the each subject has one observation in test dataset.
   - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` of both in-sample and ou-of-sample datasets for each hyper-parameter pair candidate.
-- `Bootstrap estimation.py`:
-  This code is used to estimate the MLE distributions of subgroups(partition by gender, theta, and so on) by the bootstrap method.
+- `Subgroup estimation.py`:
+  This code is used to estimate the MLE and its bootstrapped distributions of subgroups(partition by gender, theta, and so on).
   - Input: `gender_text_copy.csv` and `gender_video_copy.csv` in `.../Biased_gender_CV/data/`.
-  - sampling method: `df_draw2()` in `Model_utility.py`. This resampling method ensures the resampling dataset has the same number of observations (n=6) for each subject, hence let the overall average proportion be the estimator of the mean proportion at the individual level. 
-  - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for bootstrapped datasets for each subgroup.
+  - sampling method:
+    - **When estimating bootstrapped distribution:** `df_draw2()` in `Model_utility.py`. This resampling method ensures the resampling dataset has the same number of observations (n=6) for each subject, hence let the overall average proportion be the estimator of the mean proportion at the individual level.
+    - **When estimating MLE: ** Directly use the subgroup dataset as training data.
+  - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for each subgroup.
  
 - `Recovery_estimation.py` + `Recovery_simulation.py`:
   This code is used for showing the good **data recovery (individual-level choice proportion and RT distribution)** by Biased-DDM. Only if the number of observations for each subject is equal, the individual-level choice proportion mean is equivalent to the average proportion for all observations. Hence, a dynamic conditional imputing method is used to balance the dataset.
