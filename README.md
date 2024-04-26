@@ -11,10 +11,16 @@ The drift-diffusion model (DDM) is applied here to disentangle the influence of 
 The solution for both the DDM recovery experiment and empirical DDM estimation. 
 
 ### **Model:** 
-This file contains the source codes written in C++ for solving stochastic differential equations of DDM. Please check the algorithm in Suppl. Algorithm of probability density approximation of DDM model of our paper.
+This file contains the source codes written in C++ for solving stochastic differential equations of DDM. Please check the algorithm in Suppl. Algorithm of probability density approximation of DDM model of our paper for more details.
 
 This file is used to compile the shared library (.dll) via Microsoft Visual C++ for _Recovery_drift_bias_ndt.sln_ using Windows 10.
-The detailed procedure for compling .dll can be checked [tutorial for .dll compiling under Windows System](https://learn.microsoft.com/en-us/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=msvc-170.)
+The detailed procedure for compiling .dll can be checked [tutorial for .dll compiling under Windows System](https://learn.microsoft.com/en-us/cpp/build/walkthrough-creating-and-using-a-dynamic-link-library-cpp?view=msvc-170.)
+
+Before compiling the .dll, [Armadillo](https://arma.sourceforge.net/), [Boost](https://www.boost.org/), [SuperLU](https://portal.nersc.gov/project/sparse/superlu/), and other potential dependent C++ libraries are required to download and add their file locations to `additional dependencies` while compiling the dynamic shared library Model.dll.
+
+
+
+
 
 
   
