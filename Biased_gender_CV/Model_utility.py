@@ -124,36 +124,26 @@ def calculate_LL(s_type, RT, R, estimated_pdf, dt, ndt, max_time, print_warning 
     ndt =  np.exp(ndt)
     DT = RT-ndt
     
-    ''' 
-    if s_type:
-        # video-based scene
     
-        for i in range(n):
-            if RT[i]+ndt>max_time:
-                ndt = max_time-RT[i]
-            DT[i] = RT[i]-ndt
-    '''  
    
                
     index = DT/dt
     likelihood = np.zeros(n)
-    
-    # print(np.sum(estimated_pdf[2]))
+    '''
+    for each log-ll, a log(P_U)<0 is minused, which in fact adding a constant. The larger log(P_U) is, the smaller the constant is add
+    When inverse the log-ll to get -2*ll, the larger P_U is, the smaller constant is minused, hence the -2NLL is harder to minimize. Hence, P_U is a penality here. 
+    '''
     for i in range(n):
         if R[i] == 0:
             probability = estimated_pdf[0]/(1-np.sum(estimated_pdf[2]))
         else:
             probability = estimated_pdf[1]/(1-np.sum(estimated_pdf[2]))
             
-        # for each log-ll, a log(P_U)<0 is minused, which in fact adding a constant. 
-        # The larger log(P_U) is, the smaller the constant is add
-        # When inverse the log-ll to get -2*ll, the larger P_U is, the smaller constant is minused, hence the -2NLL is harder to minimize.
-        # Hence, P_U is a penality here. 
+        
         # used to be int(index[i])  
         int_index = floor(index[i])
         
         # make sure RT-ndt positive
-        
         if int_index<=0: 
            likelihood[i] = 0
         else:
@@ -168,12 +158,7 @@ def calculate_LL(s_type, RT, R, estimated_pdf, dt, ndt, max_time, print_warning 
         if print_warning: 
             print("Warning: likelihood contains 0")
         likelihood[idx_0] = [1e-30]*len(idx_0)
-    '''
-    if (len(idx_0) > 0):
-        if print_warning: 
-            print("Warning: likelihood contains 0")
-        likelihood[idx_0] = 1e-30 #
-    '''    
+    
     LL = np.log(likelihood)
     return LL.sum()*(-2)
 
@@ -185,19 +170,7 @@ def prob_estimated(s_type,dt,input):
     """
     
     result = input
-    '''
-    if s_type:
-        max_time_index = floor(7.5/dt)+1
-        total_probability = np.sum(result[0][0:max_time_index]) + np.sum(result[1][0:max_time_index]) + np.sum(result[2][0:max_time_index]) 
-        positive_probability = np.sum(result[0][0:max_time_index]) 
-        negative_probability = np.sum(result[1][0:max_time_index]) 
-        remaining_probability = np.sum(result[2][0:max_time_index])
-    else:
-        total_probability = np.sum(result[0]) + np.sum(result[1]) + np.sum(result[2])
-        positive_probability = np.sum(result[0]) 
-        negative_probability = np.sum(result[1]) 
-        remaining_probability = np.sum(result[2])
-    '''
+    
     total_probability = np.sum(result[0]) + np.sum(result[1]) + np.sum(result[2])
     positive_probability = np.sum(result[0]) 
     negative_probability = np.sum(result[1]) 
@@ -220,19 +193,7 @@ def prob_obs(df):
 def simulate(input, df, dt, ndt, max_time,s_type):
     result = input
     ndt = np.exp(ndt)
-    ''''
-    if s_type:
-        max_time_index = floor(7.5/dt)+1
-        total_probability = np.sum(result[0][0:max_time_index]) + np.sum(result[1][0:max_time_index]) + np.sum(result[2][0:max_time_index])
-        positive_probability = np.sum(result[0][0:max_time_index]) 
-        negative_probability = np.sum(result[1][0:max_time_index]) 
-        remaining_probability = np.sum(result[2][0:max_time_index])
-    else:
-        total_probability = np.sum(result[0]) + np.sum(result[1]) + np.sum(result[2])
-        positive_probability = np.sum(result[0]) 
-        negative_probability = np.sum(result[1]) 
-        remaining_probability = np.sum(result[2])
-    '''
+    
     total_probability = np.sum(result[0]) + np.sum(result[1]) + np.sum(result[2])
     positive_probability = np.sum(result[0]) 
     negative_probability = np.sum(result[1]) 
@@ -242,7 +203,7 @@ def simulate(input, df, dt, ndt, max_time,s_type):
     print("Probability of hitting the negative boundary", round(negative_probability, 3))
     print("Remaining probability at the last time step", round(remaining_probability, 3))
 
-    #proportions = df['TrueR'].value_counts(normalize=True)
+ 
     proportions = df['R'].value_counts(normalize=True)
     print("The data showed the probability of hitting the positive boundary", round(proportions[0], 3))
     print("The data showed the probability of hitting the negative boundary", round(proportions[1], 3))
@@ -256,14 +217,7 @@ def simulate(input, df, dt, ndt, max_time,s_type):
     n = len(df)
     high_value = 1
     
-    '''
-    if s_type:
-        high_value = cdf[int(8/dt+1)]
-        #high_value = 1
-        #print("the high_value is",high_value)
-    else:
-        high_value = 1
-    '''    
+ 
     random_draws = np.random.uniform(low=0.0, high=high_value, size=n)
     index = np.searchsorted(cdf, random_draws)
     
@@ -343,8 +297,8 @@ def df_draw2 (inputdf):
 
 def df_draw3 (inputdf):
     '''
-    return one dataframe:contains 6 trail for each subject. For those whose valid trail number isn't sufficient, will repreat part of them.
-    
+    return one dataframe: contains 6 trail for each subject.
+    For those whose valid trail number isn't sufficient, will repreat part of them.
     -----------------------------------------
     inputdf: dataframe, {"s","RT","R","sex","age"}, where "s" is the subject ID.
     '''
