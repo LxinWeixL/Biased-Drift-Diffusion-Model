@@ -74,14 +74,14 @@ This project includes all codes related to DDM models in our paper.
     - sampling method: `df_draw3()` in `Model_utility.py`. This imputing method ensures the estimated choice proportion is unbiased to the individual-level choice proportion mean of the whole population. 
     - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for imputed datasets for each subgroup.
 - **Recovery_simulation.py**:
--   Input: estimated parameters.
+-   Input: estimated output from Recovery_estimation.py.
 -   Output: simulated observations in the format of (R, RT). These outputs are used to generate proportion_all.xlsx in `.../DDM_results`.
 
 # DDM result:
 This file folder stores the main results in our paper related to the biased-DDM.
 - proportion_all.xlsx: The estimated choice proportion and observed proportion for both scenes using all data for 30 iterations for data recovery.
 - DDM_result_test(adjusted): The MLE, bootstrap CI, k-s test, and overlapping area for the subgroups.
-- pure_gender_bs_NF_150.xlsx: All the estimation results for MLE and bootstrapped distributions of subgroups.
+- **pure_gender_bs_NF_150.xlsx**: All the estimation results for MLE and bootstrapped distributions of subgroups.
   The sheets are named by "X1_X2_X3" format, where
   - "X1" stands for scene type, text-based or video-based.
   - "X2" stands for the subgroup partition type, by"all", "gender", "alpha", "beta", and "theta". Specially, "all" stands for no partition rule used.
