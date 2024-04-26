@@ -23,8 +23,8 @@ os.chdir('C:/Users/e0729936/source/repos/Recovery_drift_bias_ndt/Biased_gender_C
 ###########################################
 
 # load the whole dataset
-df_gender_t0 = pd.read_csv('data/gender_text_copy2.csv')
-df_gender_v0 = pd.read_csv('data/gender_video_copy2.csv')
+df_gender_t0 = pd.read_csv('data/gender_text_copy.csv')
+df_gender_v0 = pd.read_csv('data/gender_video_copy.csv')
 
 
 def objective_function(x, *args):
@@ -81,7 +81,7 @@ def objective_function(x, *args):
 
 
 def minimize_func(args):
-    #n_maxiter = 150!!!!!!!!!!
+    
     hyper, s_type, condition, RT, R  = args
     # random select initial value
     if condition:
@@ -98,16 +98,12 @@ def minimize_func(args):
             
         initial_guess = np.array(initial_guess).reshape(3,)
     
-    return minimize(objective_function,initial_guess, args=args, method='Nelder-Mead')#, options={'maxiter': n_maxiter})
-    # ’ ,"BFGS"
+    return minimize(objective_function,initial_guess, args=args, method='Nelder-Mead')
+   
 
 
 #####################################################
-# random split training dataset and test dataset
-
-
-
-
+# random split training dataset and test dataset by stratified bootstrap
 
 def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,condition,subgroup):
     '''
@@ -125,11 +121,12 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
             condition= 1,x0 = 0.
     subgroup: int, the index of excluded subgroup
     '''
+    
     start = timer()
     # define hyper parameter set
     hyper = [bound_t, s0_t, 0.01,0.01,bound_v,s0_v]
     # arugment for lieklihood setting
-    s_type_t = 0 # s_type = 0 is text-based data, otherwise = 1
+    s_type_t = 0 # s_type = 0 is picture-based data, otherwise = 1
     s_type_v = 1
     
     max_time_t = 15.0
@@ -138,10 +135,10 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     # generate training dataset
     ''''''
     df_gender_train_t = Model_utility.df_draw2(df_gender_t) 
-    beta_s = df_gender_train_t[para].to_numpy()[1]#subgroup# 
-    #sex = df_gender_train_t["sex"].to_numpy()[1]
+    beta_s = df_gender_train_t[para].to_numpy()[1] 
+
     
-    #RT_gender_train_t = df_gender_train_t['RT1'].to_numpy()
+    
     RT_gender_train_t = df_gender_train_t['RT'].to_numpy()
     R_gender_train_t  = df_gender_train_t['R'].to_numpy()
     res0= minimize_func((hyper,s_type_t, condition, RT_gender_train_t, R_gender_train_t))
@@ -150,8 +147,7 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     
     
     df_gender_train_v = Model_utility.df_draw2(df_gender_v) 
-    beta_s = df_gender_train_v[para].to_numpy()[1]#subgroup#
-    #sex = df_gender_train_v["sex"].to_numpy()[1]
+    beta_s = df_gender_train_v[para].to_numpy()[1]
     RT_gender_train_v = df_gender_train_v['RT1'].to_numpy()
     R_gender_train_v  = df_gender_train_v['R'].to_numpy()
  
@@ -169,8 +165,6 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     ''''''
     
     if condition:
-        # x0 = 0
-
         drift0_t = res0.x[0]
         ndt_t = res0.x[1]
         x0_t = 0 
@@ -185,12 +179,11 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     
     
     if condition:
-        # x0 = 0
-
+        
         drift0_v = res1.x[0]
         ndt_v = res1.x[1]
         x0_v = 0 
-        bias =  "centre"
+        bias =  "centre" # when X0 = 0, bias = "centre"
     else:
         drift0_v = res1.x[0]
         ndt_v = res1.x[2]
@@ -248,15 +241,15 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     
     # write result
     ''''''
-    file_path = 'data/estimate_gender_text2_bs_'+para+'.txt'
-    #file_path = 'data/estimate_gender_text_bs_sex.txt'
+    file_path = 'data/estimate_gender_text_bs_'+para+'.txt'
+
     with open(file_path, 'a') as f:
         f.write( '  '.join(map(str, res_final)) + '\n')   
         
 
            
-    file_path = 'data/estimate_gender_video2_bs_'+para+'.txt'
-    #file_path = 'data/estimate_gender_video_bs_sex.txt'
+    file_path = 'data/estimate_gender_video_bs_'+para+'.txt'
+  
     with open(file_path, 'a') as f:
         f.write( '  '.join(map(str, res_final_v)) + '\n')
     
@@ -264,99 +257,35 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     end =  timer()
     print(end - start)
    
-''' for hyperparameter searching
-bound_list = [5.5,6]
-for i in bound_list:
-    for j in range(10):
-        each_loop(i, i*0.5)
-'''       
-
-
+  
+############################################################################################
 start0 = timer()
 
 
-# divide dataset by sub_gender, sex = 0 is M.
-grouped_t = df_gender_t0.groupby('sex')
-df_gender_t0_M = grouped_t.get_group(0)
-df_gender_t0_F = grouped_t.get_group(1)
-grouped_v = df_gender_v0.groupby('sex')
-df_gender_v0_M = grouped_v.get_group(0)
-df_gender_v0_F = grouped_v.get_group(1)
-
-#print(df_gender_t0_F.head())
-
-#each_loop(bound, s0, df_gender_t0_F, df_gender_v0_F)
-#each_loop(bound, s0, df_gender_t0, df_gender_v0_F)
-'''
-for i in range(2):
-    Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = grouped_t.get_group(i),df_gender_v = df_gender_v0_F) for _ in range(30))    
-'''
-'''
-grouped_t = df_gender_t0.groupby('beta_s')
-grouped_v = df_gender_v0.groupby('beta_s')
-'''
-
-
-bound_t = 3.5# 5#
-s0_t = 1.75#2.25#
+# the selected hyperparameter (bound,s0) after CV 
+bound_t = 3.5
+s0_t = 1.75
 bound_v = 3.5
 s0_v = 1.75
-#condition = [0,1]
-condition = [0]
+condition = [0] 
+'''
+    condition: int type. 
+    condition=0, all is free.
+    condition= 1,x0 = 0.
+'''
 
-
-#for k in range(2):
-#    Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = grouped_t.get_group(k),df_gender_v = grouped_v.get_group(k),para = "beta_s4", condition = 0, subgroup = 0) for _ in range(30))    
-
-para = ["beta","theta"]
+# para: the list of interested subgroup
+para = ["sex","alpha","beta","theta"]
 
 for i in para:
     grouped_t = df_gender_t0.groupby(i)
     grouped_v = df_gender_v0.groupby(i)
     for k in range(2):
-            # to do: the subgroup index should be inversed
+            # set the bootstrap number =150
             Parallel(n_jobs=-2)(delayed(each_loop)(bound_t=bound_t, s0_t = s0_t,bound_v=bound_v, s0_v = s0_v, df_gender_t = grouped_t.get_group(k),df_gender_v = grouped_v.get_group(k),para = i, condition = 0, subgroup = -1) for _ in range(150))    
 
-''' used for beta subgroup
-
-
-grouped_t = df_gender_t0.groupby('beta_s2')
-grouped_v = df_gender_v0.groupby('beta_s2')
-for j in condition:
-    # 10
-    for i in np.arange(9, 20,1):
-        # reduce the slected group, therefore, the subgroup contains the highest beta-bands to lowest.
-        sample_index_t = grouped_t.get_group(i).index
-        #sample_index_t = grouped_t.get_group(1).index #just for no index of text
-        train_t = df_gender_t0.drop(index = sample_index_t)
-        #sample_index_v = grouped_v.get_group(i).index
-        sample_index_v = grouped_v.get_group(i).index
-        train_v = df_gender_v0.drop(index = sample_index_v)
-        
-        # divide the subgroup into two groups by gender
-        grouped_t_1 = train_t.groupby('sex')
-        grouped_v_1 = train_v.groupby('sex')
-        #grouped_t_1[['s']].nunique()
-        #print(grouped_t_1[['s']].nunique(),grouped_v_1[['s']].nunique())
-
-        for k in range(2):
-            # to do: the subgroup index should be inversed
-            Parallel(n_jobs=-4)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = grouped_t_1.get_group(k),df_gender_v = grouped_v_1.get_group(k),para = "beta_s2", condition = j, subgroup = np.abs(19-i)) for _ in range(30))    
-
-'''
-
-
-
-'''
-
-Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = df_gender_t0_F,df_gender_v = grouped_v.get_group(1)) for _ in range(30))    
-
-'''
-
-
 end0 =  timer()
-print(len(df_gender_t0_M["RT"].to_numpy()))
-print(len(df_gender_t0_F["RT"].to_numpy()))
+
 print(end0 - start0)
 
 
