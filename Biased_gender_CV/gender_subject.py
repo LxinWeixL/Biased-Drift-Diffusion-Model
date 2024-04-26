@@ -23,11 +23,7 @@ os.chdir('C:/Users/e0729936/source/repos/Recovery_drift_bias_ndt/Biased_gender_C
 ###########################################
 
 # load the whole dataset
-'''
-df_gender_t0 = pd.read_csv('data/newdata/gender_text.csv')
-df_gender_v0 = pd.read_csv('data/newdata/gender_video.csv')
 
-'''
 
 df_gender_t0 = pd.read_csv('data/gender_text_copy.csv')
 df_gender_v0 = pd.read_csv('data/gender_video_copy.csv')
@@ -56,7 +52,7 @@ def objective_function(x, *args):
     
     # video and text data set has different max_time
     if s_type==0:
-         max_time = 15 #15.0 #
+         max_time = 15 
          b0 = hyper[0]
          s0 = hyper[1]
     else: 
@@ -98,7 +94,7 @@ def minimize_func(args):
         limit = -0.2
     else:
         limit = 0.7
-    #n_maxiter = 150
+ 
     if condition==0:
         #np.random.uniform( -0.2, 0.2,1)
         initial_guess = [np.random.uniform( -1, 1,1),np.random.uniform( -0.2, 0.2,1),np.random.uniform( -1,limit,1)]#,np.random.uniform( -1, 1,1)]
@@ -112,21 +108,15 @@ def minimize_func(args):
     else:
         initial_guess = np.random.uniform( -1, 1,1)
         initial_guess = np.array(initial_guess).reshape(1,)
-        #initial_guess = np.array(initial_guess).reshape(3,)
+       
     # random select initial value
   
-    return minimize(objective_function,initial_guess, args=args, method="Nelder-Mead")#, options={'maxiter': n_maxiter})
-    # ’ 'Nelder-Mead', #Nelder-Mead
+    return minimize(objective_function,initial_guess, args=args, method="Nelder-Mead")
+    
 
 
 #####################################################
-# random split training dataset and test dataset
-
-
-
-
-
-def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,condition):
+def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,condition):
     '''
     for each loop, based on the given dataset and hyperparameter, return estimated parameter and test dataset -2LL
     ------------------------------
@@ -136,7 +126,7 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
         the noise standard deviation
      df_gender_t: dataframe
      df_gender_v: dataframe
-     para: a string
+    
      condition: an int type. 
         condition = 0, three free parameters; 
         condition = 1, x0 =0;
@@ -148,27 +138,13 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     # define hyper parameter set
     hyper = [bound_t, s0_t,  0.01,0.01, bound_v, s0_v]
     
-    # generate training and test dataset
-    #df_gender_train_t, df_gender_test_t = Model_utility.df_draw(df_gender_t)
-    #df_gender_train_v, df_gender_test_v = Model_utility.df_draw(df_gender_v)
     
     df_gender_train_t = Model_utility.df_draw3(df_gender_t)
     df_gender_train_v = Model_utility.df_draw3(df_gender_v)
-    #file_t = 'data/newdata/text_train' +  str(iter_i) +'.csv'
-    #file_v = 'data/newdata/video_train' +  str(iter_i) +'.csv'
-    #df_gender_train_t.to_csv(file_t)
-    #df_gender_train_v.to_csv(file_v)
-    #df_gender_train_v = df_gender_v
-    #df_gender_test_v = df_gender_v
+  
     df_gender_test_v = df_gender_train_v
-    sex = df_gender_train_v[para].to_numpy()[1]
-   
-    
-    
-    #df_gender_train_t = df_gender_t
-    #df_gender_test_t = df_gender_t
     df_gender_test_t = df_gender_train_t
-    #sex = df_gender_train_t[para].to_numpy()[1]
+
     
     
     
@@ -185,7 +161,7 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     RT_gender_test_v = df_gender_test_v['RT1'].to_numpy()
     R_gender_test_v  = df_gender_test_v['R'].to_numpy()
     
-    # arugment for lieklihood setting
+    # argument for likelihood setting
     s_type_t = 0 # s_type = 0 is text-based data, otherwise = 1
     s_type_v = 1
   
@@ -259,9 +235,9 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     est_prob = Model_utility.prob_estimated(s_type_t,dt,result1)
     obs_prob = Model_utility.prob_obs(df_gender_train_t)
     test_prob = Model_utility.prob_obs(df_gender_test_t)
-    res_final = [sex]#[sex]
+    res_final = []
     res_final.extend(hyper[0:4])
-    #res_final = hyper[0:4]
+   
     if condition==0:
         res_final.extend(res0.x[:-1]) 
         res_final.append(np.exp(res0.x[-1]))
@@ -287,9 +263,7 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     est_prob_v = Model_utility.prob_estimated(s_type_v,dt, result_v)
     obs_prob_v = Model_utility.prob_obs(df_gender_train_v)
     test_prob_v = Model_utility.prob_obs(df_gender_test_v)
-    res_final_v = [sex]#[sex]
-    #res_final_v.extend(hyper)
-    #res_final_v = [hyper[4],hyper[5],hyper[2],hyper[3]]
+    res_final_v = []
     res_final_v.extend([hyper[4],hyper[5],hyper[2],hyper[3]])
     if condition==0:
         res_final_v.extend(res1.x[:-1])
@@ -309,17 +283,14 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     res_final_v.append(res1.success)
     
     # write result
-    
-    #file_route = 'data/estimate_gender_text_all_mle4.txt'
-    #file_route = 'data/estimate_gender_text_all.txt'
-    file_route = 'data/newdata/estimate_gender_text_mle2_' +  para +'.txt'
+
+    file_route = 'data/newdata/estimate_gender_text_mle_' + '.txt'
     with open(file_route, 'a') as f:
         f.write( '  '.join(map(str, res_final)) + '\n')    
         
            
-    #file_route = 'data/estimate_gender_video_all.txt'
-    file_route = 'data/newdata/estimate_gender_video_mle2_' +  para +'.txt'
-    #file_route = 'data/estimate_gender_video_all_mle4.txt'
+    
+    file_route = 'data/newdata/estimate_gender_video_mle_' + '.txt'
     with open(file_route, 'a') as f:
         f.write( '  '.join(map(str, res_final_v)) + '\n')
     
@@ -327,102 +298,30 @@ def each_loop(bound_t, s0_t,bound_v, s0_v, df_gender_t, df_gender_v,para,conditi
     end =  timer()
     print(end - start)
    
-''' for hyperparameter searching
-bound_list = [5.5,6]
-for i in bound_list:
-    for j in range(10):
-        each_loop(i, i*0.5)
-'''       
 
 
 start0 = timer()
 
-bound_t = 3.5#5
-bound_v =3.5#5#
+
+# After determining the hyper-parameter pair (bound,s0)
+bound_t = 3.5
+bound_v =3.5
 s0_t = 1.75
-s0_v = 1.75# 2.5#
-# divide dataset by sub_gender, sex = 0 is M.
+s0_v = 1.75
 
-#grouped_t = df_gender_t0.groupby('sex')
-#grouped_t = df_gender_t0.groupby('age')
-#grouped_t = df_gender_t0.groupby('theta')
-#df_gender_t0_M = grouped_t.get_group(0)
-#df_gender_t0_F = grouped_t.get_group(1)
+condition = [0] # all three parameters are free
 
-#grouped_v = df_gender_v0.groupby('sex')
-#grouped_v = df_gender_v0.groupby('age')
-#df_gender_v0_M = grouped_v.get_group(0)
-#df_gender_v0_F = grouped_v.get_group(1)
+# repeat 30 iterations for each dataset
+Parallel(n_jobs=-3)(delayed(each_loop)(bound_t=bound_t, s0_t = s0_t, bound_v=bound_v, s0_v = s0_v, df_gender_t = df_gender_t0,df_gender_v = df_gender_v0) for _ in range(30))    
 
-#print(df_gender_t0_F.head())
-
-#each_loop(bound, s0, df_gender_t0_F, df_gender_v0_F)
-#each_loop(bound, s0, df_gender_t0, df_gender_v0_F)
-
-para = ["sex","beta","alpha","theta"]
-#para = ["theta"]
-#condition = [0,1,2,3]
-condition = [0]
-
-
-for m in condition:
-    for k in para:
-        grouped_t = df_gender_t0.groupby(k)
-        #grouped_t = df_gender_t0.groupby('theta')
-        df_gender_t0_M = grouped_t.get_group(0)
-        df_gender_t0_F = grouped_t.get_group(1)
-
- 
-        grouped_v = df_gender_v0.groupby(k)
-        df_gender_v0_M = grouped_v.get_group(0)
-        df_gender_v0_F = grouped_v.get_group(1)   
-        #print(len(df_gender_v0_M["RT1"].to_numpy()))
-        #print(len(df_gender_v0_F["RT1"].to_numpy()))
-        #print(len(df_gender_t0_M["R"].to_numpy()))
-        #print(len(df_gender_t0_F["R"].to_numpy()))
-        '''
-        if k=="beta":
-            Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = grouped_v.get_group(0),df_gender_v = grouped_v.get_group(0), para = k, condition = m) for _ in range(1))    
-            Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = grouped_v.get_group(1),df_gender_v = grouped_v.get_group(1), para = k, condition = m) for _ in range(30))    
-        '''   
-        for i in range(2): 
-            #if k!="beta":  
-            Parallel(n_jobs=-3)(delayed(each_loop)(bound_t=bound_t, s0_t = s0_t, bound_v=bound_v, s0_v = s0_v,df_gender_t = grouped_t.get_group(i),df_gender_v = grouped_v.get_group(i), para = k, condition = m) for _ in range(30))    
-           
-        #Parallel(n_jobs=-3)(delayed(each_loop)(bound_t=bound_t, s0_t = s0_t, bound_v=bound_v, s0_v = s0_v, df_gender_t = grouped_t, df_gender_v = grouped_, para = k, condition = m) for _ in range(30))    
-
- 
- 
-
-#Parallel(n_jobs=-3)(delayed(each_loop)(bound_t = bound_t, s0_t = s0_t,bound_v = bound_v, s0_v = s0_v, df_gender_t = df_gender_t0,df_gender_v = df_gender_v0, para = "sex", condition = 0,iter_i = _) for _ in range(30))    
-
-
-'''
-
-for i in range(2):
-   Parallel(n_jobs=-2)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = df_gender_t0_F,df_gender_v = grouped_v.get_group(i)) for _ in range(30))    
-
-
-
-         
-Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = df_gender_t0_F,df_gender_v = grouped_v.get_group(1)) for _ in range(30))    
-
-'''
-
-
-#Parallel(n_jobs=-3)(delayed(each_loop)(bound=bound, s0 = s0, df_gender_t = df_gender_t0,df_gender_v = df_gender_v0) for _ in range(30))
 
 end0 =  timer()
 
-#Model_utility.df_draw3(df_gender_v0)
+
 
 print(end0 - start0)
 
-# 121655sec for 3*3*10=90, 22.5 min a run.
 
-# check why the resample has the same -2LL value.
-#each_loop(4,2)
-# parallel algorithm
 
 
 
