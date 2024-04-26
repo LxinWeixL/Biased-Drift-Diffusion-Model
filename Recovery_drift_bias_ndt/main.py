@@ -64,6 +64,7 @@ Model_utility.plot_density(result, dt, ndt).savefig('plots/2.png')
 
 
 ##################################################
+# simulate dataset of (RT,R) with given true parameter value
 n = 512
 sim_emp_responses = Model_utility.simulate_simple(result, n, dt, ndt)
 R = sim_emp_responses[0]
