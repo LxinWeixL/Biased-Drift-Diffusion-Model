@@ -34,11 +34,31 @@ For readers who want to apply a biased DDM model to their dataset, this file is 
 ### Biased_gender_CV
 
 This project includes all codes related to DDM models in our paper.
-
-- `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in the following .py files.
+- data:
+  - `gender_text_copy.csv`: The dataframe of picture-based scene includes:
+    - Subject ID:`s`
+    - Response Time: `RT` in sec.
+    - Display format: `M`
+    - Scenario Type: `Scenario_Type`
+    - Response: `R`. R=1 when crashing the male; otherwise, R = 0.
+    - Subject gender: `sex`. sex = 0, when subject is male.
+    - Subject age: `age`. age = 0, when subject is younger or equal to 24 years old.
+    - theta-bands subgroup: `theta`. theta= 0 if the subject has a lower theta-band frequency compared to the group median.
+    - beta-bands subgroup: `theta`. beta= 0 if the subject has a lower beta-band frequency compared to the group median.
+    - alpha-bands subgroup: `theta`. alpha= 0 if the subject has a lower alpha-band frequency compared to the group median.
+ - `gender_video_copy.csv`: The dataframe of video-based scene includes: other columns are the same as `gender_text_copy.csv`, except the following.
+    - Overall Response Time: `RT` in sec.
+    - Deliberation Time: `RT1` in sec. 
+  
+- `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `hyper_parameter CV.py`,`gender_subject.py`, and `bootstrap estimation.py`.
   Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling function: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and reference, respectively.
 
--  
+- `hyper_parameter CV.py`:
+  - Input: `gender_text_copy.csv` and `gender_video_copy.csv` in `.../Biased_gender_CV/data/`.
+  - sampling method: `df_draw()` in `Model_utility.py`. This is a subject-level Leave-one-out sampling method to ensure the each subject has one observation in test dataset.
+  - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` of both in-sample and ou-of-sample datasets for each hyper-parameter pair candidate.
+- 
+    
 
   
 
