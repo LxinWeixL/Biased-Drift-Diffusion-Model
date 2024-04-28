@@ -92,7 +92,7 @@ This file folder stores the main results in our paper related to the biased-DDM.
 - sampling procedures.pdf: The sampling procedures for stratified Leave-one-out sampling (p1) and stratified bootstrap sampling (p2).
 
   
-# Ackowledgement and contributions:
+# Ackowledgement and Contributions:
 
 Thanks for the kind help from [Dr. Yi-shin Lin](https://github.com/yxlin) for his contribution to the .cpp source code of the DDM model (in the Model folder). See [Shinn, M., & Lam, N. (2018). pyddm (version 0.5.6).](https://github.com/mwshinn/PyDDM/) for more details. 
 
