@@ -52,7 +52,7 @@ This project includes all codes related to DDM models in our paper.
       - Deliberation Time: `RT1` in sec. 
   
 - `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `hyper_parameter CV.py`,`gender_subject.py`, and `bootstrap estimation.py`.
-  Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling function: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and reference, respectively.
+  Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
 
 - **CV for hyperparameter.py**:
   This code is used to search for the best hyper-parameter pair based on Cross-validation.
