@@ -19,7 +19,7 @@ The detailed procedure for compiling .dll can be checked [tutorial for .dll comp
 
 Before compiling the .dll, [Armadillo](https://arma.sourceforge.net/), [Boost](https://www.boost.org/), [SuperLU](https://portal.nersc.gov/project/sparse/superlu/), and other potential dependent C++ libraries are required to download and add their file locations to `additional dependencies` while compiling the dynamic shared library Model.dll.
 
-Last but not last, after successful compiling Model.dll, please set this shared dynamic library to as the dependence path to the following python projects.
+Last but not last, after successful compiling Model.dll, please set this shared dynamic library as the dependence path to the following python projects.
 ### Recovery_drift_bias_ndt:
 
 For readers who want to apply a biased DDM model to their dataset, this file is a simple example to replicate and then customize the DDM model.
