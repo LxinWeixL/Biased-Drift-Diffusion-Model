@@ -55,30 +55,30 @@ This project includes all codes related to DDM models in our paper.
 > Note that in the video-based scene, Deliberation Time `RT1` is used for the biased-DDM instead of overall Response Time `RT`. The latter includes the time elapse from the start of the scene to the appearance of pedestrians, which shouldn't be considered as decision time. 
  
 
-- `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `hyper_parameter CV.py`,`gender_subject.py`, and `bootstrap estimation.py`.
-  Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
+- [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py): A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in [CV for hyperparameter.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/CV%20for%20hyperparameter.py),[Subgroup_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Subgroup%20estimation.py), and [Recovery estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py).
+  Specially, unlike [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/Model_utility.py) in [Recovery_drift_bias_ndt](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Recovery_drift_bias_ndt) project, there include three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
 
-- **CV for hyperparameter.py**:
+- **[CV for hyperparameter.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/CV%20for%20hyperparameter.py)**:
   This code is used to search for the best hyper-parameter pair based on Cross-validation.
   - Input: **gender_text_copy.csv** and **gender_video_copy.csv** in `.../Biased_gender_CV/data/`.
-  - sampling method: `df_draw()` in `Model_utility.py`. This is a subject-level Leave-one-out sampling method to ensure the each subject has one observation in test dataset.
+  - sampling method: `df_draw()` in [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This is a subject-level Leave-one-out sampling method to ensure the each subject has one observation in test dataset.
   - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` of both in-sample and ou-of-sample datasets for each hyper-parameter pair candidate.
-- **Subgroup estimation.py**:
+- **[Subgroup estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Subgroup%20estimation.py)**:
   This code is used to estimate the MLE and its bootstrapped distributions of subgroups(partition by gender, theta, and so on).
-  - Input: **gender_text_copy.csv **and **gender_video_copy.csv** in `.../Biased_gender_CV/data/`.
+  - Input: **[gender_text_copy.csv]**(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)and **[gender_video_copy.csv]**(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv) in `.../Biased_gender_CV/data/`.
   - sampling method:
-    - **When estimating bootstrapped distribution:** `df_draw2()` in `Model_utility.py`. This resampling method ensures the resampling dataset has the same number of observations (n=6) for each subject, hence let the overall average proportion be the estimator of the mean proportion at the individual level.
+    - **When estimating bootstrapped distribution:** `df_draw2()` in Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This resampling method ensures the resampling dataset has the same number of observations (n=6) for each subject, hence let the overall average proportion be the estimator of the mean proportion at the individual level.
     - **When estimating MLE: ** Directly use the subgroup dataset as training data.
   - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for each subgroup.
  
-- **Recovery_estimation.py** + **Recovery_simulation.py**:
+- **[Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py)** + **[Recovery_simulation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_simulation.py)**:
   This code is used for showing the good **data recovery (individual-level choice proportion and RT distribution)** by Biased-DDM. Only if the number of observations for each subject is equal, the individual-level choice proportion mean is equivalent to the average proportion for all observations. Hence, a dynamic conditional imputing method is used to balance the dataset.
-  - **Recovery_estimation.py**:
-    - Input: **gender_text_copy.csv** and **gender_video_copy.csv ** in `.../Biased_gender_CV/data/`.
-    - sampling method: `df_draw3()` in `Model_utility.py`. This imputing method ensures the estimated choice proportion is unbiased to the individual-level choice proportion mean of the whole population. 
+  - **[Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py)**:
+    - Input: **[gender_text_copy.csv]**(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)and **[gender_video_copy.csv]**(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv) in `.../Biased_gender_CV/data/`.
+    - sampling method: `df_draw3()` in [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This imputing method ensures the estimated choice proportion is unbiased to the individual-level choice proportion mean of the whole population. 
     - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for imputed datasets for each subgroup.
-- **Recovery_simulation.py**:
--   Input: estimated output from Recovery_estimation.py.
+- **[Recovery_simulation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_simulation.py)**:
+-   Input: estimated output from [Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py).
 -   Output: simulated observations in the format of (R, RT). These outputs are used to generate proportion_all.xlsx in `.../DDM_results`.
 
 # [DDM result](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/DDM%20result):
