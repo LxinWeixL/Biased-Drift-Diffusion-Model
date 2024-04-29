@@ -83,17 +83,17 @@ This project includes all codes related to DDM models in our paper.
 
 # [DDM result](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/DDM%20result):
 This file folder stores the main results in our paper related to the biased-DDM.
-- proportion_all.xlsx: The estimated choice proportion and observed proportion for both scenes using all data for 30 iterations for data recovery.
-- DDM_result_test(adjusted): The MLE, bootstrap CI, k-s test, and overlapping area for the subgroups.
-- **pure_gender_bs_NF_150.xlsx**: All the estimation results for MLE and bootstrapped distributions of subgroups.
+- [proportion_all.xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/proportion_all.xlsx): The estimated choice proportion and observed proportion for both scenes using all data for 30 iterations for data recovery.
+- [DDM_result_test(adjusted).xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/DDM_result_test(adjusted).xlsx): The MLE, bootstrap CI, k-s test, and overlapping area for the subgroups.
+- **[pure_gender_bs_NF_150.xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/pure_gender_bs_NF_150(adjusted).xlsx)**: All the estimation results for MLE and bootstrapped distributions of subgroups.
   The sheets are named by "X1_X2_X3" format, where
   - "X1" stands for scene type, text-based or video-based.
   - "X2" stands for the subgroup partition type, by"all", "gender", "alpha", "beta", and "theta". Specially, "all" stands for no partition rule used.
   - "X3" stands for whether the estimated result is for finding MLE point estimation (30 iterations, finding the estimation with maximum llk) denoted by "mle" or estimating MLE bootstrapped distribution (150 iterations) denoted by "bs".
     For example, "text_all_mle" is the sheet contains the estimation results and corresponding in-sample `-2*loglikelihood`, observed proportion, and estimated proportion for **30 repetitions based on the whole dataset of the text-based (picture-based) scene to find MLE.**
     "video_beta_bs" is the sheet contains the estimation results and corresponding in-sample `-2*loglikelihood`, observed proportion, and estimated proportion for **150 bootstrap iterations based on the subgroup dataset partitioned by beta-bands on the video-based scene to generate MLE distribution.**
-- Hyper_parameter_CV.xlsx: Summary output of **CV for hyperparameter.py**.
-- sampling procedures.pdf: The sampling procedures for stratified Leave-one-out sampling (p1) and stratified bootstrap sampling (p2).
+- [Hyper_parameter_CV.xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/Hyper_parameter_CV.xlsx): Summary output of **CV for hyperparameter.py**.
+- [sampling procedures.pdf](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/sampling%20procedures.pdf): The sampling procedures for stratified Leave-one-out sampling (p1) and stratified bootstrap sampling (p2).
 
   
 # Ackowledgement and Contributions:
