@@ -54,7 +54,8 @@ This project includes all codes related to DDM models in our paper.
   
 > Note that in the video-based scene, Deliberation Time `RT1` is used for the biased-DDM instead of overall Response Time `RT`. The latter includes the time elapse from the start of the scene to the appearance of pedestrians, which shouldn't be considered as decision time. 
  
-
+> The term **"text-based" scene** in the codes or dataset is equivalent to the **"picture-based" scene** in the paper.
+>  
 - [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py): A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in [CV for hyperparameter.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/CV%20for%20hyperparameter.py),[Subgroup_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Subgroup%20estimation.py), and [Recovery estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py).
   Specially, unlike [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/Model_utility.py) in [Recovery_drift_bias_ndt](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Recovery_drift_bias_ndt) project, there include three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
 
