@@ -51,9 +51,9 @@ This project includes all codes related to DDM models in our paper.
       - Overall Response Time: `RT` in sec.
       - Deliberation Time: `RT1` in sec.
         
-  ``` ad-note
-Note that in the video-based scene, Deliberation Time `RT1` is used for the biased-DDM instead of overall Response Time `RT`. Because the latter includes some the time elapse from the start of scene to the appearance of pedestrians, which shouldn't be consider as decision time. 
-  ```
+  
+> Note that in the video-based scene, Deliberation Time `RT1` is used for the biased-DDM instead of overall Response Time `RT`. The latter includes the time elapse from the start of the scene to the appearance of pedestrians, which shouldn't be considered as decision time. 
+ 
 
 - `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `hyper_parameter CV.py`,`gender_subject.py`, and `bootstrap estimation.py`.
   Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
