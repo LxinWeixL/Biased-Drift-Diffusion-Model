@@ -11,7 +11,7 @@ The drift-diffusion model (DDM) is applied here to disentangle the influence of 
 ### The Biased_DDM.sln 
 The solution for both the DDM recovery experiment and empirical DDM estimation. 
 
-### **Model:** 
+### **[Model](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Model):** 
 This file contains the source codes written in C++ for solving stochastic differential equations of DDM. Please check the algorithm in Suppl. Algorithm of probability density approximation of DDM model of our paper for more details.
 
 This file is used to compile the shared library (.dll) via Microsoft Visual C++ for _Biased_DDM.sln_ using Windows 10.
@@ -20,7 +20,7 @@ The detailed procedure for compiling .dll can be checked [tutorial for .dll comp
 Before compiling the .dll, [Armadillo](https://arma.sourceforge.net/), [Boost](https://www.boost.org/), [SuperLU](https://portal.nersc.gov/project/sparse/superlu/), and other potential dependent C++ libraries are required to download and add their file locations to `additional dependencies` while compiling the dynamic shared library Model.dll.
 
 Last but not last, after successful compiling Model.dll, please set this shared dynamic library as the dependence path to the following python projects.
-### Recovery_drift_bias_ndt:
+### [Recovery_drift_bias_ndt](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Recovery_drift_bias_ndt):
 
 For readers who want to apply a biased DDM model to their dataset, this file is a simple example to replicate and then customize the DDM model.
 
@@ -32,11 +32,11 @@ For readers who want to apply a biased DDM model to their dataset, this file is 
   - `likelihood_output.txt`: The output for -2*log_likelihood for each iteration.
   - `simdata.csv`: The simulated R&RT data under MLE.
     
-### Biased_gender_CV
+### [Biased_gender_CV](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Biased_gender_CV)
 
 This project includes all codes related to DDM models in our paper.
-- **data:**
-  - g**ender_text_copy.csv**: The dataframe of picture-based scene includes:
+- **[data](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Biased_gender_CV/data):**
+  - **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)**: The dataframe of picture-based scene includes:
     - Subject ID:`s`
     - Response Time: `RT` in sec.
     - Display format: `M`
@@ -47,7 +47,7 @@ This project includes all codes related to DDM models in our paper.
     - theta-bands subgroup: `theta`. theta= 0 if the subject has a lower theta-band frequency compared to the group median.
     - beta-bands subgroup: `theta`. beta= 0 if the subject has a lower beta-band frequency compared to the group median.
     - alpha-bands subgroup: `theta`. alpha= 0 if the subject has a lower alpha-band frequency compared to the group median.
-   - **gender_video_copy.csv**: The dataframe of video-based scene includes: other columns are the same as `gender_text_copy.csv`, except the following.
+   - **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)**: The dataframe of video-based scene includes: other columns are the same as `gender_text_copy.csv`, except the following.
       - Overall Response Time: `RT` in sec.
       - Deliberation Time: `RT1` in sec. 
   
@@ -77,7 +77,7 @@ This project includes all codes related to DDM models in our paper.
 -   Input: estimated output from Recovery_estimation.py.
 -   Output: simulated observations in the format of (R, RT). These outputs are used to generate proportion_all.xlsx in `.../DDM_results`.
 
-# DDM result:
+# [DDM result](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/DDM%20result):
 This file folder stores the main results in our paper related to the biased-DDM.
 - proportion_all.xlsx: The estimated choice proportion and observed proportion for both scenes using all data for 30 iterations for data recovery.
 - DDM_result_test(adjusted): The MLE, bootstrap CI, k-s test, and overlapping area for the subgroups.
