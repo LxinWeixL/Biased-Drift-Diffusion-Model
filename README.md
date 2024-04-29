@@ -25,7 +25,7 @@ Last but not last, after successful compiling Model.dll, please set this shared 
 For readers who want to apply a biased DDM model to their dataset, this file is a simple example to replicate and then customize the DDM model.
 
 - [main.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/main.py): The main Python file for data simulation (based on the given parameters), estimation, and visualization.
-- [Model_utility.py(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/Model_utility.py): A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `main.py`.
+- [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/Model_utility.py): A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `main.py`.
 - [data](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Recovery_drift_bias_ndt/data):
   - `df_recovery.csv`: generated response choice (R) and corresponding response time (RT) data with a given true parameter set.
   - `estimate_output.txt`: The output for MLE estimations for all iterations.
@@ -60,12 +60,12 @@ This project includes all codes related to DDM models in our paper.
 
 - **[CV for hyperparameter.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/CV%20for%20hyperparameter.py)**:
   This code is used to search for the best hyper-parameter pair based on Cross-validation.
-  - Input: **gender_text_copy.csv** and **gender_video_copy.csv** in `.../Biased_gender_CV/data/`.
+  - Input: **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)** and **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)** in `.../Biased_gender_CV/data/`.
   - sampling method: `df_draw()` in [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This is a subject-level Leave-one-out sampling method to ensure the each subject has one observation in test dataset.
   - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` of both in-sample and ou-of-sample datasets for each hyper-parameter pair candidate.
 - **[Subgroup estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Subgroup%20estimation.py)**:
   This code is used to estimate the MLE and its bootstrapped distributions of subgroups(partition by gender, theta, and so on).
-  - Input: **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)**and **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)** in `.../Biased_gender_CV/data/`.
+  - Input: **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)** and **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)** in `.../Biased_gender_CV/data/`.
   - sampling method:
     - **When estimating bootstrapped distribution:** `df_draw2()` in Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This resampling method ensures the resampling dataset has the same number of observations (n=6) for each subject, hence let the overall average proportion be the estimator of the mean proportion at the individual level.
     - **When estimating MLE: ** Directly use the subgroup dataset as training data.
@@ -74,7 +74,7 @@ This project includes all codes related to DDM models in our paper.
 - **[Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py)** + **[Recovery_simulation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_simulation.py)**:
   This code is used for showing the good **data recovery (individual-level choice proportion and RT distribution)** by Biased-DDM. Only if the number of observations for each subject is equal, the individual-level choice proportion mean is equivalent to the average proportion for all observations. Hence, a dynamic conditional imputing method is used to balance the dataset.
   - **[Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py)**:
-    - Input: **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)**and **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)**  in `.../Biased_gender_CV/data/`.
+    - Input: **[gender_text_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_text_copy.csv)** and **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)**  in `.../Biased_gender_CV/data/`.
     - sampling method: `df_draw3()` in [Model_utility.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Model_utility.py). This imputing method ensures the estimated choice proportion is unbiased to the individual-level choice proportion mean of the whole population. 
     - Output: MLE of parameters, `-2*loglikelihood`, `observed choice proportion`, and `predicted choice proportion` for imputed datasets for each subgroup.
 - **[Recovery_simulation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_simulation.py)**:
