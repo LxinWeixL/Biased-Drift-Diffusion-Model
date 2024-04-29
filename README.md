@@ -2,14 +2,14 @@
 
 ## Overall
 
-This repository shares all the related codes used for the Biased Drift Diffusion Model parameter estimation and inference on paper _Video-Based Experiments Better Capture Societal Biases in AI’s Ethical Decisions!_ The subjects are facing the binary choice between crashing female or male pedestrians when an Autonomous Vehicle is out of control. The survey is conducted in two different representation formats: picture-based and video-based scenes respectively. The data documented the **response choice (R)** and **Response time (RT)** for 40 participants under 6 different scenarios over pedestrians age in two types of scenes. 
+This repository shares all the related codes used for the Biased Drift Diffusion Model parameter estimation and inference on paper _Video-Based Experiments Better Capture Societal Biases in AI’s Ethical Decisions!_ The subjects are facing the binary choice between crashing female or male pedestrians when an Autonomous Vehicle is out of control. The survey is conducted in two different representation formats: picture-based and video-based scenes respectively. The data documented the **Response choice (R)** and **Response Time (RT)** for 40 participants under 6 different scenarios over pedestrians age in two types of scenes. 
 
 The drift-diffusion model (DDM) is applied here to disentangle the influence of subjects ’ initial preferences and their interaction with the survey on the formation of choice biases. DDM inherently models the decision-making process, allowing joint modeling of the subjects’ response times and choice outcomes [^1]. Two DDM parameters are relevant for this study. One key parameter, the starting point, signifies the initial preference toward a particular choice option. Another parameter, the drift rate, denotes the speed of evidence accumulation, reflecting the subject's interaction with the scene. By fitting DDMs to the data obtained from male and female subjects in both the picture-based and video-based scenes, we examine the variation in these parameters and consequent changes in choice outcomes. Furthermore, we investigate the connections between DDM parameters and features of brain activities, shedding light on their association with attentional and emotional aspects. Thus, we ensure the robustness of our findings by triangulating correlations between choice biases, DDM parameters, and brain activities.
 
 ##  Repository Details
 
 ### The Biased_DDM.sln 
-The solution for both the DDM recovery experiment and empirical DDM estimation. 
+The solution for both the DDM recovery experiment and empirical DDM estimation. Please clone all files except readme and license in this repository such that the solution works.
 
 ### **[Model](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Model):** 
 This file contains the source codes written in C++ for solving stochastic differential equations of DDM. Please check the algorithm in Suppl. Algorithm of probability density approximation of DDM model of our paper for more details.
@@ -24,9 +24,9 @@ Last but not last, after successful compiling Model.dll, please set this shared 
 
 For readers who want to apply a biased DDM model to their dataset, this file is a simple example to replicate and then customize the DDM model.
 
-- `main.py`: The main Python file for data simulation (based on the given parameters), estimation, and visualization.
-- `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `main.py`.
-- data:
+- [main.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/main.py): The main Python file for data simulation (based on the given parameters), estimation, and visualization.
+- [Model_utility.py(https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Recovery_drift_bias_ndt/Model_utility.py): A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `main.py`.
+- [data](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/Recovery_drift_bias_ndt/data):
   - `df_recovery.csv`: generated response choice (R) and corresponding response time (RT) data with a given true parameter set.
   - `estimate_output.txt`: The output for MLE estimations for all iterations.
   - `likelihood_output.txt`: The output for -2*log_likelihood for each iteration.
@@ -49,8 +49,12 @@ This project includes all codes related to DDM models in our paper.
     - alpha-bands subgroup: `theta`. alpha= 0 if the subject has a lower alpha-band frequency compared to the group median.
    - **[gender_video_copy.csv](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/data/gender_video_copy.csv)**: The dataframe of video-based scene includes: other columns are the same as `gender_text_copy.csv`, except the following.
       - Overall Response Time: `RT` in sec.
-      - Deliberation Time: `RT1` in sec. 
-  
+      - Deliberation Time: `RT1` in sec.
+        
+  ``` ad-note
+Note that in the video-based scene, Deliberation Time `RT1` is used for the biased-DDM instead of overall Response Time `RT`. Because the latter includes some the time elapse from the start of scene to the appearance of pedestrians, which shouldn't be consider as decision time. 
+  ```
+
 - `Model_utility.py`: A utility file includes functions of simulation, likelihood calculations, and so on, which is imported in `hyper_parameter CV.py`,`gender_subject.py`, and `bootstrap estimation.py`.
   Specially, unlike `Model_utility.py` in `Recovery_drift_bias_ndt` project, there includes three sampling functions: `df_draw()`, `df_draw2()`, and `df_draw3()` facilitating the hyperparameter selection, MLE estimation and inference, respectively.
 
