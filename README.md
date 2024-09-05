@@ -82,7 +82,7 @@ This project includes all codes related to DDM models in our paper.
 -   Input: estimated output from [Recovery_estimation.py](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/Biased_gender_CV/Recovery_estimation.py).
 -   Output: simulated observations in the format of (R, RT). These outputs are used to generate proportion_all.xlsx in `.../DDM_results`.
 
-# [DDM result](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/DDM%20result):
+## [DDM result](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/tree/master/DDM%20result):
 This file folder stores the main results in our paper related to the biased-DDM.
 - [proportion_all.xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/proportion_all.xlsx): The estimated choice proportion and observed proportion for both scenes using all data for 30 iterations for data recovery.
 - [DDM_result_test(adjusted).xlsx](https://github.com/LxinWeixL/Biased-Drift-Diffusion-Model/blob/master/DDM%20result/DDM_result_test(adjusted).xlsx): The MLE, bootstrap CI, k-s test, and overlapping area for the subgroups.
