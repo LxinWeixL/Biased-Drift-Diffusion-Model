@@ -117,5 +117,4 @@ Based on .cpp source code, the author of this repository built the dynamic share
 
 
 ## Reference:
-
 [^1]: [Ratcliff, R., Smith, P. L., Brown, S. D., & McKoon, G. (2016). Diffusion decision model: Current issues and history. Trends in cognitive sciences, 20(4), 260-281]([https://pages.github.com/](https://linkinghub.elsevier.com/retrieve/pii/S1364661316000255))
